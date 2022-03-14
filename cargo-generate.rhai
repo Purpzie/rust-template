@@ -4,11 +4,19 @@ fn prompt(prompt_str) { variable::prompt(prompt_str) }
 fn prompt(prompt_str, default_val) { variable::prompt(prompt_str, default_val) }
 fn prompt(prompt_str, default_val, choices) { variable::prompt(prompt_str, default_val, choices) }
 
+// passing --lib is annoying
+if get("crate_type") != "lib" {
+	set("crate_type", prompt("Project type", "bin", ["bin", "lib"]));
+}
+
 set("description", prompt("Description", ""));
 set("license", prompt("License", "MIT", ["MIT", "Unlicense", "None"]));
 set("repository", prompt("Repository URL", ""));
 set("github-actions", prompt("Use github actions?", false));
 
+if get("crate_type") == "lib" {
+	file::rename("src/main.rs", "src/lib.rs");
+}
 if get("license") == "None" {
 	file::delete("LICENSE");
 }
