@@ -1,0 +1,45 @@
+name: CI
+on:
+  - push
+  - pull_request
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Install rust
+        id: install_rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+{%- if action-check %}
+          components: clippy, rustfmt
+{%- endif %}
+{%- if action-check or action-test %}
+      - name: Fetch cache
+        uses: Swatinem/rust-cache@v1
+{%- endif %}
+{%- if action-check %}
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+{%- endif %}
+{%- if action-test %}
+      - name: Test
+        run: cargo test
+{%- endif %}
+{%- if action-check %}
+      - name: Rustfmt
+        if: always() && steps.install_rust.outcome == 'success'
+        run: cargo fmt -- --check
+{%- endif %}
+{%- if action-docs %}
+      - name: Check docs
+{%- if action-check or action-test %}
+        if: always() && steps.install_rust.outcome == 'success'
+{%- endif %}
+        run: cargo doc --no-deps
+{%- endif %}

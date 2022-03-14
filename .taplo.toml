@@ -1,0 +1,9 @@
+[formatting]
+column_width = 100
+indent_string = '	'
+reorder_keys = true
+
+[[rule]]
+formatting = {reorder_keys = false}
+include = ["**/Cargo.toml"]
+keys = ["package"]
