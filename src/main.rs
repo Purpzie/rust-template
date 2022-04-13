@@ -1,5 +1,5 @@
 #![doc = include_str!("../README.md")]
-#![forbid(unsafe_code, rustdoc::broken_intra_doc_links)]
+#![forbid(clippy::undocumented_unsafe_blocks)]
 #![warn(missing_docs)]
 #![allow(clippy::tabs_in_doc_comments)]
 {%- if crate_type == "bin" %}
