@@ -8,25 +8,31 @@ fn prompt(prompt_str, default_val, choices) { variable::prompt(prompt_str, defau
 if get("crate_type") != "lib" {
 	set("crate_type", prompt("Project type", "bin", ["bin", "lib"]));
 }
-
-set("description", prompt("Description", ""));
-set("license", prompt("License", "MIT", ["MIT", "Unlicense", "None"]));
-set("repository", prompt("Repository URL", ""));
-set("github-actions", prompt("Use github actions?", false));
-
 if get("crate_type") == "lib" {
 	file::rename("src/main.rs", "src/lib.rs");
 }
-if get("license") == "None" {
-	file::delete("LICENSE");
-}
 
+set("description", prompt("Description", ""));
+set("repository", prompt("Repository URL", ""));
+
+set("license", prompt("License", "MIT", [
+	"MIT",
+	"Unlicense",
+	"None",
+]));
+if get("license") != "None" {
+	file::rename(`licenses/${get("license")}`, "LICENSE");
+}
+file::delete("licenses");
+
+set("github-actions", prompt("Use github actions?", false));
 if get("github-actions") {
-	let check = prompt("    Run clippy/fmt", false);
+	let clippy = prompt("    Run clippy", false);
 	let test = prompt("    Run tests", false);
+	let fmt = prompt("    Run rustfmt", false);
 	let docs = prompt("    Check docs", false);
-	if check || test || docs {
-		for arr in [["check", check], ["test", test], ["docs", docs]] {
+	if clippy || test || fmt || docs {
+		for arr in [["clippy", clippy], ["test", test], ["fmt", fmt], ["docs", docs]] {
 			set(`action-${arr[0]}`, arr[1]);
 		}
 	} else {

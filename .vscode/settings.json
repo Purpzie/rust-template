@@ -1,3 +1,12 @@
 {
-	"rust-analyzer.checkOnSave.command": "clippy"
+	"rust-analyzer.checkOnSave.command": "clippy",
+	"evenBetterToml.actions.ignoreDeprecatedAssociations": "true",
+	"[rust]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "rust-lang.rust-analyzer"
+	},
+	"[toml]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "tamasfe.even-better-toml"
+	}
 }

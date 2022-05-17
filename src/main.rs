@@ -1,11 +1,11 @@
 #![doc = include_str!("../README.md")]
-#![forbid(clippy::undocumented_unsafe_blocks)]
+#![deny(clippy::undocumented_unsafe_blocks)]
+{%- if crate_type == "lib" %}
 #![warn(missing_docs)]
+{%- endif %}
 #![allow(clippy::tabs_in_doc_comments)]
 {%- if crate_type == "bin" %}
 
-fn main() {
-	println!("Hello, world!");
-}
+fn main() {}
 
 {%- endif %}
