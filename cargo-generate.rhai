@@ -29,10 +29,14 @@ set("github-actions", prompt("Use github actions?", false));
 if get("github-actions") {
 	let clippy = prompt("    Run clippy", false);
 	let test = prompt("    Run tests", false);
+	let cargo_features = false;
+	if clippy || test {
+		cargo_features = prompt("    Do with & without features", false);
+	}
 	let fmt = prompt("    Run rustfmt", false);
 	let docs = prompt("    Check docs", false);
 	if clippy || test || fmt || docs {
-		for arr in [["clippy", clippy], ["test", test], ["fmt", fmt], ["docs", docs]] {
+		for arr in [["clippy", clippy], ["test", test], ["fmt", fmt], ["docs", docs], ["cargo-features", cargo_features]] {
 			set(`action-${arr[0]}`, arr[1]);
 		}
 	} else {

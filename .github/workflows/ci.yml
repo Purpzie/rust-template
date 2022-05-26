@@ -24,11 +24,15 @@ jobs:
 {%- endif %}
 {%- if action-clippy %}
       - name: Clippy
-        run: cargo clippy --all-targets -- -D warnings
+        run: {% if action-cargo-features %}|
+          {% endif %}cargo clippy --all-targets {% if action-cargo-features %}--no-default-features {% endif %}-- -D warnings{% if action-cargo-features %}
+          cargo clippy --all-targets --all-features -- -D warnings{% endif %}
 {%- endif %}
 {%- if action-test %}
       - name: Test
-        run: cargo test --all-features
+        run: {% if action-cargo-features %}|
+          {% endif %}cargo test --all-targets{% if action-cargo-features %} --no-default-features
+          cargo test --all-targets --all-features{% endif %}
 {%- endif %}
 {%- if action-fmt %}
       - name: Rustfmt
