@@ -31,8 +31,8 @@ jobs:
 {%- if action-test %}
       - name: Test
         run: {% if action-cargo-features %}|
-          {% endif %}cargo test --all-targets{% if action-cargo-features %} --no-default-features
-          cargo test --all-targets --all-features{% endif %}
+          {% endif %}cargo test{% if action-cargo-features %} --no-default-features
+          cargo test --all-features{% endif %}
 {%- endif %}
 {%- if action-fmt %}
       - name: Rustfmt
