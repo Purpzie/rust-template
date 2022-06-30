@@ -1,5 +1,1 @@
-# force lf {%- comment %}
-# hack to highlight cargo-generate.rhai on github
-*.rhai linguist-language=Rust
-# {% endcomment %}
 * text=auto eol=lf

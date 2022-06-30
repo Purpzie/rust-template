@@ -14,7 +14,9 @@ repository = "{{repository | strip}}"
 include = ["src", "README.md"{% if license != "None" %}, "LICENSE"{% endif %}]
 edition = "2021"
 publish = false
+{%- if crate_type == "bin" %}
 
 [profile.release]
 codegen-units = 1
 lto = true
+{%- endif %}

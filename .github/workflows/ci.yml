@@ -31,8 +31,8 @@ jobs:
 {%- if action-test %}
       - name: Test
         run: {% if action-cargo-features %}|
-          {% endif %}cargo test{% if action-cargo-features %} --no-default-features
-          cargo test --all-features{% endif %}
+          {% endif %}cargo test --no-fail-fast{% if action-cargo-features %} --no-default-features
+          cargo test --no-fail-fast --all-features{% endif %}
 {%- endif %}
 {%- if action-fmt %}
       - name: Rustfmt
@@ -46,5 +46,7 @@ jobs:
 {%- if action-clippy or action-test or action-fmt %}
         if: always() && steps.install_rust.outcome == 'success'
 {%- endif %}
-        run: cargo doc --no-deps
+        run: {% if action-cargo-features %}|
+        {% endif %}cargo doc --no-deps{% if action-cargo-features %}--no-default-features
+        cargo doc --no-deps --all-features{% endif %}
 {%- endif %}
