@@ -20,7 +20,7 @@ jobs:
 {%- endif %}
 {%- if action-clippy or action-test %}
       - name: Fetch cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
 {%- endif %}
 {%- if action-clippy %}
       - name: Clippy
